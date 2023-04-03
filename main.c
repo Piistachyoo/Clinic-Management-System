@@ -12,28 +12,31 @@
 #include<stdlib.h>
 #include"data_types.h" //library for data types
 #include"functions.h" //library for linked list functions
-#include<string.h>
 #include<conio.h>
+#define default_password 1234
 
-patient *head = NULL; //head of patients linked list
-patient *tail = NULL; //tail of patients linked list
+patient *head = NULL; //head of patients' linked list
+patient *tail = NULL; //tail of patients' linked list
+time_slot *time_head = NULL; //head of reservations linked list
+time_slot *time_tail = NULL; //head of reservations linked list
 
 int main(void) //used int for main to terminate with return 0
 {
+	initialize_timeslots(); // initialize time slots linked list
 	while(1)
 	{
 		system("cls");
 		printf("Welcome to your Clinic Management System\n");
 		printf("----------------------------------------\n");
-		/*if(head==NULL)
+		if(head==NULL) // if there is no data for patients (to protect double reading the data if we log out of any user mode)
 		{
 			import_patients_data(); //read linked list
-		}*/
-		//import_reservations_data();
-		u8 mode=0;
+		}
+		u8 mode=0; 
 		while(mode==0) //loop until user choose admin or user mode
 		{
 			printf("\nEnter 1 to access admin mode, or 2 to access user mode!\n");
+			printf("Enter 0 to exit program.\n");
 			printf("Your entry: ");
 			scanf("%d", &mode);
 			
@@ -45,6 +48,19 @@ int main(void) //used int for main to terminate with return 0
 				
 				case 2:
 				printf("User mode activated!\n\n");
+				break;
+				
+				case 0:
+					printf("Enter 0 again to exit program: ");
+					u8 confirm_exit;
+					scanf("%d", &confirm_exit);
+					if(confirm_exit == 0) 
+					{
+						printf("Thanks for using our system.");
+						printf("\nGood Bye");
+						return 0;
+					}
+					system("cls");
 				break;
 				
 				default:
@@ -68,7 +84,7 @@ int main(void) //used int for main to terminate with return 0
 				
 				printf("Enter password to access admin mode: ");
 				scanf("%d", &entered_password);
-				if(entered_password == 1234) //correct password exit while loop
+				if(entered_password == default_password) //correct password exit while loop
 				{
 					flag_password = 1;
 					printf("Correct password!\n\n");
@@ -87,7 +103,10 @@ int main(void) //used int for main to terminate with return 0
 			while(choosed_option!=0) //main menu of admin mode
 			{
 				system("cls");
-				// printf("%d", head->ID);
+				if(choosed_option != 1 && choosed_option != 2 && choosed_option != 3 && choosed_option != 4 && choosed_option != 5 && choosed_option != 6 && choosed_option != 8 && choosed_option != 9 && choosed_option != 99) //user entered wrong entry
+				{
+					printf("***Wrong entry***\n");
+				}
 				printf("What do you want to do?\n");
 				printf("-----------------------\n\n");
 				printf("1.Add new patient record.\n");
@@ -95,9 +114,10 @@ int main(void) //used int for main to terminate with return 0
 				printf("3.Reserve a slot with the doctor.\n");
 				printf("4.Cancel reservation.\n");
 				printf("5.View clients data.\n");
-				printf("0.Exit program.\n");
-				printf("8.Import data.\n"); //for debug purposes only
-				printf("9.Export data.\n"); //for debug purposes only
+				printf("6.Delete patient record.\n");
+				printf("8.Import data.\n");
+				printf("9.Export data.\n");
+				printf("0.Logout admin mode.\n");
 				printf("Your entry: ");
 				scanf("%d", &choosed_option);
 				
@@ -113,32 +133,30 @@ int main(void) //used int for main to terminate with return 0
 					break;
 					
 					case 3: //Reserve a slot with the doctor.
-						
+						reserve_slot_menu();
 					break;
 					
 					case 4: //Cancel reservation.
-						
+						remove_reservation_menu();
 					break;
 					
 					case 5: //Cancel reservation.
 						display_as_table();
 					break;
 					
-					case 0: //Exit program
-						exit_app();
+					case 6: //Remove existing patient record
+						remove_patient_record();
 					break;
 					
-					case 9:
-						export_patients_data();
-					break;
-					
-					case 8:
+					case 8: // read patient record linked list from patients_data.txt
 						import_patients_data();
 					break;
 					
-					default:
-						printf("\nWrong entry\n\n");
+					case 9: // write patient record linked list from patients_data.txt
+						export_patients_data();
 					break;
+					
+
 				}
 			}
 		}
@@ -150,6 +168,10 @@ int main(void) //used int for main to terminate with return 0
 		while(choosed_option!=0) //main menu of user mode
 		{
 			system("cls");
+			if(choosed_option != 1 && choosed_option != 2 && choosed_option!=99) //user entered wrong entry
+			{
+				printf("***Wrong entry***\n");
+			}
 			printf("What do you want to do?\n");
 			printf("-----------------------\n\n");
 			printf("1.View patient record.\n");
@@ -185,11 +207,9 @@ int main(void) //used int for main to terminate with return 0
 				break;
 				
 				case 2:
-				
-				break;
-				
-				default:
-					printf("\nWrong entry\n\n");
+					view_reserved_timeslots();
+					printf("Press any key to continue...");
+					getch();
 				break;
 			}
 		}
