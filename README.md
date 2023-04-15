@@ -5,9 +5,9 @@
 
 Admin mode has a default password of 1234, and can only accept 3 wrong password entries. After that, it will terminate.
 
-Patients' records is loaded from patients_data.txt (if available) upon launch, and is auto saved after we add a new patient or edit or remove an existing one. So you don't have to add them every time you launch the system.
+Patients' records are loaded from patients_data.txt (if available) upon launch and are auto-saved after we add a new patient or edit or remove an existing one. So you don't have to add them every time you launch the system.
 
-Reservation time slots are reset every time we launch the system, the system is intended to run once per day, so each day has his own reservation slots.
+Reservation time slots are reset every time we launch the system, the system is intended to run once per day, so each day has its reservation slots.
 
 
 
@@ -29,7 +29,7 @@ Reservation time slots are reset every time we launch the system, the system is 
 
 - Add a new patient record
 - Edit patient record
-- Remove patient record
+- Remove a patient record
 - Reserve a time slot with the doctor for an ID within available time slots
 - Cancel a reservation 
 - View all patients' records in a table
@@ -38,5 +38,5 @@ Reservation time slots are reset every time we launch the system, the system is 
 
 ###  User mode: 
 - View single patient record with his/her ID.
-- View all reserved time slots with it's corresponding time and ID.
+- View all reserved time slots with their corresponding time and ID.
 
